@@ -38,7 +38,15 @@ graph TD
   - `/health` and `/api/v1/health`: Instant liveness checks without database dependency.
   - `/api/v1/health/database`: Dedicated readiness probe executing lightweight ping queries and reporting sanitized connectivity state (HTTP 200 vs 503).
 
-## AI and Speech Subsystems
-- **AI Engine**: Modular adapter pattern with fallbacks and structured JSON output validation
-- **Resume Parsing**: Safe text extraction from PDF/DOCX with transparent skill matching against job descriptions
-- **Integrity & Observations**: Distinct consent-based identity verification keeping audit telemetry separate from competency scoring
+## AI and Resume Subsystems
+- **AI Engine**: Modular adapter pattern with fallbacks and structured JSON output validation.
+- **Resume Ingestion & Parsing Pipeline**:
+  - Multi-tier validation: Magic byte signatures (`%PDF-`, `PK\x03\x04`), extension confirmation, 10MB size ceiling, filename sanitization with UUID-prefixed keys stored outside web root (`backend/uploads/resumes`).
+  - Text extraction: `pypdf` for PDF parsing and `python-docx` for Word documents; scanned documents lacking text layers trigger clear `needs_ocr` status rather than falsified output.
+  - Sanitization: Prompt injection containment neutralizing untrusted adversarial instructions inside resumes.
+  - Heuristic analysis: 200+ technology and tool taxonomy, education extraction, experience duration estimation, and structured JSON output.
+- **Transparent Job Matching Engine**:
+  - Deterministic skill gap analysis: Required skills (70% weight) and preferred skills (30% weight).
+  - Component breakdown: Skill score, experience score, education score, and weighted overall score.
+  - Honest explanations & limitations disclaimer: Explicitly distinguishes unmentioned skills from confirmed gaps; never infers protected personal characteristics or claims an objective probability of job success.
+- **Integrity & Observations**: Distinct consent-based identity verification keeping audit telemetry separate from competency scoring.

@@ -42,6 +42,40 @@ def test_migration_metadata_discovery():
     assert "created_at" in token_columns
     assert "replaced_by_hash" in token_columns
 
+    assert "resumes" in tables
+    resume_table = tables["resumes"]
+    resume_cols = [col.name for col in resume_table.columns]
+    assert "id" in resume_cols
+    assert "user_id" in resume_cols
+    assert "filename" in resume_cols
+    assert "storage_key" in resume_cols
+    assert "file_type" in resume_cols
+    assert "file_size" in resume_cols
+    assert "extraction_status" in resume_cols
+    assert "raw_text" in resume_cols
+    assert "structured_data" in resume_cols
+
+    assert "job_descriptions" in tables
+    job_table = tables["job_descriptions"]
+    job_cols = [col.name for col in job_table.columns]
+    assert "id" in job_cols
+    assert "recruiter_id" in job_cols
+    assert "title" in job_cols
+    assert "company" in job_cols
+    assert "description" in job_cols
+    assert "required_skills" in job_cols
+    assert "preferred_skills" in job_cols
+
+    assert "resume_job_matches" in tables
+    match_table = tables["resume_job_matches"]
+    match_cols = [col.name for col in match_table.columns]
+    assert "id" in match_cols
+    assert "resume_id" in match_cols
+    assert "job_id" in match_cols
+    assert "overall_score" in match_cols
+    assert "skill_score" in match_cols
+    assert "experience_score" in match_cols
+
 
 def test_alembic_upgrade_and_downgrade():
     """Verify Alembic migration upgrade to head and downgrade to base on disposable database."""

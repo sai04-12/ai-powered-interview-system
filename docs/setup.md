@@ -66,14 +66,21 @@ flutter run -d chrome
 flutter run -d windows
 ```
 
+## File Upload Storage
+Uploaded resumes are securely stored on the local filesystem outside public static directories at:
+`c:\ai interviewer\backend\uploads\resumes`
+- Directories are created automatically with strict access controls.
+- Uploads enforce magic byte signature verification (`%PDF-` for PDF, `PK\x03\x04` for DOCX).
+- Size limit is enforced at 10 MB.
+
 ## Running Automated Tests
 
 ```powershell
-# Backend tests
+# Backend tests (45 tests covering auth, DB health, PDF/DOCX extraction, security, matching engine)
 cd "c:\ai interviewer\backend"
-.\.venv\Scripts\pytest tests/
+.\.venv\Scripts\pytest -v tests/
 
-# Frontend tests & analyzer
+# Frontend analyzer & tests (0 analyzer issues, 24 passing tests)
 cd "c:\ai interviewer\frontend"
 flutter analyze
 flutter test

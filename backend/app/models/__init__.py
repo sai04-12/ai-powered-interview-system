@@ -1,5 +1,6 @@
 """Database SQLAlchemy Models Package."""
 from app.models.base import Base, TimestampMixin, UUIDMixin
+from app.models.resume import ExtractionStatus, JobDescription, Resume, ResumeJobMatch
 from app.models.system import SystemSetting
 from app.models.user import RefreshToken, User, UserRole
 
@@ -11,4 +12,8 @@ __all__ = [
     "User",
     "UserRole",
     "RefreshToken",
+    "ExtractionStatus",
+    "Resume",
+    "JobDescription",
+    "ResumeJobMatch",
 ]

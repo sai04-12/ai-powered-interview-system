@@ -29,6 +29,18 @@ class User(Base, UUIDMixin, TimestampMixin):
         cascade="all, delete-orphan",
         lazy="selectin",
     )
+    resumes: Mapped[List["Resume"]] = relationship(
+        "Resume",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+    job_descriptions: Mapped[List["JobDescription"]] = relationship(
+        "JobDescription",
+        back_populates="recruiter",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
 
     def __repr__(self) -> str:
         return f"<User id='{self.id}' email='{self.email}' role='{self.role}'>"
