@@ -76,6 +76,37 @@ def test_migration_metadata_discovery():
     assert "skill_score" in match_cols
     assert "experience_score" in match_cols
 
+    assert "interview_sessions" in tables
+    session_table = tables["interview_sessions"]
+    session_cols = [col.name for col in session_table.columns]
+    assert "id" in session_cols
+    assert "user_id" in session_cols
+    assert "job_id" in session_cols
+    assert "resume_id" in session_cols
+    assert "status" in session_cols
+    assert "current_question_index" in session_cols
+    assert "total_question_count" in session_cols
+
+    assert "interview_questions" in tables
+    question_table = tables["interview_questions"]
+    question_cols = [col.name for col in question_table.columns]
+    assert "id" in question_cols
+    assert "session_id" in question_cols
+    assert "question_text" in question_cols
+    assert "category" in question_cols
+    assert "skill" in question_cols
+    assert "difficulty" in question_cols
+    assert "question_order" in question_cols
+
+    assert "interview_answers" in tables
+    answer_table = tables["interview_answers"]
+    answer_cols = [col.name for col in answer_table.columns]
+    assert "id" in answer_cols
+    assert "session_id" in answer_cols
+    assert "question_id" in answer_cols
+    assert "answer_text" in answer_cols
+    assert "word_count" in answer_cols
+
 
 def test_alembic_upgrade_and_downgrade():
     """Verify Alembic migration upgrade to head and downgrade to base on disposable database."""

@@ -22,6 +22,9 @@ class ApiConstants {
   // Jobs endpoints
   static const String jobsPrefix = '$apiVersion/jobs';
   
+  // Interviews endpoints
+  static const String interviewsPrefix = '$apiVersion/interviews';
+  
   static const Duration connectTimeout = Duration(seconds: 10);
   static const Duration receiveTimeout = Duration(seconds: 15);
 }

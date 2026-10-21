@@ -49,4 +49,10 @@ graph TD
   - Deterministic skill gap analysis: Required skills (70% weight) and preferred skills (30% weight).
   - Component breakdown: Skill score, experience score, education score, and weighted overall score.
   - Honest explanations & limitations disclaimer: Explicitly distinguishes unmentioned skills from confirmed gaps; never infers protected personal characteristics or claims an objective probability of job success.
+- **Adaptive Interview Session Engine (Phase 6)**:
+  - Deterministic question generation: Configurable question bank and taxonomy mapped across skills (Python, FastAPI, Flutter, Dart, PostgreSQL, Docker, Git) and categories (`technical`, `problem_solving`, `project_experience`, `behavioral`).
+  - Transparent difficulty calibration: Adjusts subsequent question difficulty dynamically using answer substance metadata (character and word length) without pre-evaluating correctness (reserved for Phase 7).
+  - Stateful session lifecycle: Explicit state machine (`draft` -> `in_progress` -> `completed` / `abandoned`) guarding against invalid transitions, skipping questions, or cross-session tampering.
+  - Candidate privacy isolation: Candidate responses are inaccessible to recruiters by default, preserving psychological safety and answer integrity.
 - **Integrity & Observations**: Distinct consent-based identity verification keeping audit telemetry separate from competency scoring.
+

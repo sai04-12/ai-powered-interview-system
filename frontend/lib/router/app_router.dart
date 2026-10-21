@@ -1,6 +1,10 @@
 import 'package:go_router/go_router.dart';
 import '../features/authentication/screens/login_screen.dart';
 import '../features/authentication/screens/register_screen.dart';
+import '../features/interviews/screens/interview_completion_screen.dart';
+import '../features/interviews/screens/interview_list_screen.dart';
+import '../features/interviews/screens/interview_session_screen.dart';
+import '../features/interviews/screens/interview_setup_screen.dart';
 import '../features/jobs/screens/job_list_screen.dart';
 import '../features/resume/screens/resume_list_screen.dart';
 import '../features/resume/screens/resume_match_screen.dart';
@@ -48,6 +52,35 @@ class AppRouter {
           initialResumeId: state.uri.queryParameters['resumeId'],
           initialJobId: state.uri.queryParameters['jobId'],
         ),
+      ),
+      GoRoute(
+        path: '/interviews',
+        name: 'interviews',
+        builder: (context, state) => const InterviewListScreen(),
+      ),
+      GoRoute(
+        path: '/interviews/setup',
+        name: 'interview_setup',
+        builder: (context, state) => InterviewSetupScreen(
+          initialJobId: state.uri.queryParameters['jobId'],
+          initialResumeId: state.uri.queryParameters['resumeId'],
+        ),
+      ),
+      GoRoute(
+        path: '/interviews/:sessionId',
+        name: 'interview_session',
+        builder: (context, state) {
+          final sessionId = state.pathParameters['sessionId'] ?? '';
+          return InterviewSessionScreen(sessionId: sessionId);
+        },
+      ),
+      GoRoute(
+        path: '/interviews/:sessionId/completed',
+        name: 'interview_completion',
+        builder: (context, state) {
+          final sessionId = state.pathParameters['sessionId'] ?? '';
+          return InterviewCompletionScreen(sessionId: sessionId);
+        },
       ),
     ],
   );

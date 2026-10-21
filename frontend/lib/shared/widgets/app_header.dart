@@ -92,6 +92,12 @@ class AppHeader extends ConsumerWidget implements PreferredSizeWidget {
               icon: const Icon(Icons.auto_awesome, size: 16),
               label: const Text('Match'),
             ),
+            const SizedBox(width: 4),
+            TextButton.icon(
+              onPressed: () => context.go('/interviews'),
+              icon: const Icon(Icons.record_voice_over_outlined, size: 16),
+              label: const Text('Interviews'),
+            ),
             const SizedBox(width: 12),
           ],
 

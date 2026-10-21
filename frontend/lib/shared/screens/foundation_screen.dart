@@ -230,12 +230,13 @@ class FoundationScreen extends ConsumerWidget {
                               ),
                               SizedBox(
                                 width: isWide ? (constraints.maxWidth - 16) / 2 : constraints.maxWidth,
-                                child: const StatusCard(
+                                child: StatusCard(
                                   title: 'Adaptive AI Engine',
                                   subtitle:
                                       'Stateful interview sessions, job-relevant dynamic questions, follow-ups, and validated rubric scoring.',
                                   icon: Icons.psychology,
                                   iconColor: AppTheme.primaryLight,
+                                  onTap: () => context.go('/interviews'),
                                 ),
                               ),
                               SizedBox(

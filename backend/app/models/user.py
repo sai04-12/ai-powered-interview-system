@@ -41,6 +41,12 @@ class User(Base, UUIDMixin, TimestampMixin):
         cascade="all, delete-orphan",
         lazy="selectin",
     )
+    interview_sessions: Mapped[List["InterviewSession"]] = relationship(
+        "InterviewSession",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
 
     def __repr__(self) -> str:
         return f"<User id='{self.id}' email='{self.email}' role='{self.role}'>"
