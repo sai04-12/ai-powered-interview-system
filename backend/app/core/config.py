@@ -59,6 +59,7 @@ class Settings(BaseSettings):
     AI_PROVIDER: str = "mock"
     AI_API_KEY: str = ""
     OPENAI_API_KEY: Union[str, None] = None
+    AI_BASE_URL: Union[str, None] = None
     AI_MODEL_NAME: str = "gpt-4o-mini"
     AI_EVALUATION_PROVIDER: str = "deterministic"
     AI_EVALUATION_TIMEOUT_SECONDS: int = 30

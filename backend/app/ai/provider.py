@@ -690,12 +690,16 @@ class OpenAIEvaluationProvider(BaseEvaluationProvider):
         model_name: Optional[str] = None,
         timeout_seconds: Optional[int] = None,
         client: Optional[httpx.Client] = None,
+        base_url: Optional[str] = None,
     ):
         self.api_key = api_key or settings.effective_ai_api_key
         self.model_name = model_name or settings.AI_MODEL_NAME or "gpt-4o-mini"
         self.timeout_seconds = timeout_seconds or settings.AI_EVALUATION_TIMEOUT_SECONDS or 30
         self.client = client
-        self.endpoint_url = "https://api.openai.com/v1/chat/completions"
+        url = base_url or getattr(settings, "AI_BASE_URL", None) or "https://api.openai.com/v1/chat/completions"
+        if url.endswith("/v1") or url.endswith("/v1/"):
+            url = url.rstrip("/") + "/chat/completions"
+        self.endpoint_url = url
 
     def evaluate(self, request: EvaluationRequest) -> EvaluationResponse:
         start_time = time.time()
