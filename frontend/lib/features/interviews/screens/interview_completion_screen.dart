@@ -128,7 +128,7 @@ class InterviewCompletionScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 24),
 
-                    // Phase Boundary Compliance Notice
+                    // AI Evaluation Access Card
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -136,25 +136,43 @@ class InterviewCompletionScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: AppTheme.primary.withValues(alpha: 0.25)),
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Icon(Icons.info_outline, color: AppTheme.primaryLight, size: 20),
-                          SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              'Responses have been securely archived. Detailed answer evaluations, rubrics, and competency scoring will be generated in Phase 7. This phase maintains interview integrity without arbitrary grading.',
-                              style: TextStyle(
-                                fontSize: 12.5,
-                                color: AppTheme.textSecondary,
-                                height: 1.45,
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Icon(Icons.assessment, color: AppTheme.primaryLight, size: 22),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  'AI Answer Evaluation & Transparent Scoring is available. View objective rubric assessments, criterion scores, and growth suggestions.',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: AppTheme.textPrimary,
+                                    height: 1.45,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 14),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              onPressed: () => context.go('/interviews/$sessionId/evaluation'),
+                              icon: const Icon(Icons.analytics_outlined, size: 18),
+                              label: const Text('View AI Evaluation Report'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.primary,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 12),
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 28),
+                    const SizedBox(height: 24),
 
                     // Navigation Actions
                     Row(
@@ -168,7 +186,7 @@ class InterviewCompletionScreen extends ConsumerWidget {
                         ),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: ElevatedButton.icon(
+                          child: OutlinedButton.icon(
                             onPressed: () => context.go('/jobs'),
                             icon: const Icon(Icons.work_outline, size: 18),
                             label: const Text('Explore Jobs'),

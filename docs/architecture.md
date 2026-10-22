@@ -51,8 +51,15 @@ graph TD
   - Honest explanations & limitations disclaimer: Explicitly distinguishes unmentioned skills from confirmed gaps; never infers protected personal characteristics or claims an objective probability of job success.
 - **Adaptive Interview Session Engine (Phase 6)**:
   - Deterministic question generation: Configurable question bank and taxonomy mapped across skills (Python, FastAPI, Flutter, Dart, PostgreSQL, Docker, Git) and categories (`technical`, `problem_solving`, `project_experience`, `behavioral`).
-  - Transparent difficulty calibration: Adjusts subsequent question difficulty dynamically using answer substance metadata (character and word length) without pre-evaluating correctness (reserved for Phase 7).
+  - Transparent difficulty calibration: Adjusts subsequent question difficulty dynamically using answer substance metadata (character and word length) without pre-evaluating correctness.
   - Stateful session lifecycle: Explicit state machine (`draft` -> `in_progress` -> `completed` / `abandoned`) guarding against invalid transitions, skipping questions, or cross-session tampering.
   - Candidate privacy isolation: Candidate responses are inaccessible to recruiters by default, preserving psychological safety and answer integrity.
+- **AI Answer Evaluation & Transparent Scoring Engine (Phase 7)**:
+  - Provider Abstraction Layer: Pluggable `BaseEvaluationProvider` with `DeterministicEvaluationProvider`, `MockEvaluationProvider`, and LLM connectors configured via `settings.AI_EVALUATION_PROVIDER`.
+  - Question-Category-Specific Rubrics: Dynamic weights across 5 core dimensions (`technical_knowledge`, `relevance`, `reasoning_problem_solving`, `practical_application`, `behavioral_competencies`) normalized to 1.0.
+  - Standardized 0–4 Rubric Scale: Transparent scoring scale anchoring rubric judgments to observable evidence in candidate answers.
+  - Prompt Injection Defense: Untrusted candidate text is sanitized, instruction overrides are neutralized, and adversarial inputs trigger explicit `requires_review` status rather than manipulated scores.
+  - Historical Evaluation Lineage: Revisions increment `answer_revision` and preserve historical evaluation records while deactivating superseded active entries.
+  - Ethical Boundaries & Limitations: Clear disclaimers stating that evaluations are rubric judgments of submitted text, not holistic measures of human potential or unverified real-world competence.
 - **Integrity & Observations**: Distinct consent-based identity verification keeping audit telemetry separate from competency scoring.
 

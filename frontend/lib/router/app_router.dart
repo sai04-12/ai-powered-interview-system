@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import '../features/authentication/screens/login_screen.dart';
 import '../features/authentication/screens/register_screen.dart';
+import '../features/evaluation/screens/interview_evaluation_screen.dart';
 import '../features/interviews/screens/interview_completion_screen.dart';
 import '../features/interviews/screens/interview_list_screen.dart';
 import '../features/interviews/screens/interview_session_screen.dart';
@@ -80,6 +81,14 @@ class AppRouter {
         builder: (context, state) {
           final sessionId = state.pathParameters['sessionId'] ?? '';
           return InterviewCompletionScreen(sessionId: sessionId);
+        },
+      ),
+      GoRoute(
+        path: '/interviews/:sessionId/evaluation',
+        name: 'interview_evaluation',
+        builder: (context, state) {
+          final sessionId = state.pathParameters['sessionId'] ?? '';
+          return InterviewEvaluationScreen(sessionId: sessionId);
         },
       ),
     ],

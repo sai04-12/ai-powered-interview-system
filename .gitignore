@@ -21,6 +21,8 @@ eggs/
 /lib64/
 !frontend/lib/
 !frontend/lib/**
+!frontend/lib/core/storage/
+!frontend/lib/core/storage/**
 parts/
 sdist/
 var/
@@ -65,8 +67,8 @@ backend/*.db
 reference-repos/
 
 # Uploads & Storage
-uploads/
-storage/
-media/
+/uploads/
+/storage/
+/media/
 backend/uploads/
 backend/storage/

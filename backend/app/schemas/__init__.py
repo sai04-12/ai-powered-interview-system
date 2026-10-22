@@ -6,6 +6,13 @@ from app.schemas.auth import (
     UserRegister,
     UserResponse,
 )
+from app.schemas.evaluation import (
+    AnswerEvaluationRequest,
+    AnswerEvaluationResponse,
+    CriterionScoreResponse,
+    SessionEvaluationReport,
+    SessionQuestionEvaluationSummary,
+)
 from app.schemas.health import DatabaseHealthResponse, HealthResponse
 from app.schemas.interview import (
     InterviewAnswerResponse,
@@ -51,4 +58,9 @@ __all__ = [
     "InterviewSessionResponse",
     "InterviewSessionSummary",
     "InterviewNextResult",
+    "CriterionScoreResponse",
+    "AnswerEvaluationResponse",
+    "AnswerEvaluationRequest",
+    "SessionQuestionEvaluationSummary",
+    "SessionEvaluationReport",
 ]

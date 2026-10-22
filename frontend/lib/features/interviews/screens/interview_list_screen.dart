@@ -277,10 +277,20 @@ class InterviewListScreen extends ConsumerWidget {
                 label: const Text('Resume'),
               )
             else if (isDone)
-              OutlinedButton.icon(
-                onPressed: () => context.go('/interviews/${session.id}/completed'),
-                icon: const Icon(Icons.visibility, size: 18),
-                label: const Text('Summary'),
+              Wrap(
+                spacing: 8,
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: () => context.go('/interviews/${session.id}/completed'),
+                    icon: const Icon(Icons.visibility, size: 16),
+                    label: const Text('Summary'),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () => context.go('/interviews/${session.id}/evaluation'),
+                    icon: const Icon(Icons.assessment, size: 16),
+                    label: const Text('Evaluation'),
+                  ),
+                ],
               )
             else
               Text(

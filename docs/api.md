@@ -114,9 +114,38 @@ All interview session endpoints require a valid Bearer JWT. Candidate session ow
 
 ---
 
-## 6. Upcoming Phase Endpoints
+## 6. AI Answer Evaluation & Transparent Scoring (`/api/v1/evaluations`) — Phase 7
 
-### Evaluation & Reports (`/api/v1/reports`) — Phase 7
-- `GET /{interview_id}` — Get objective rubric evaluation and competency breakdown.
-- `GET /{interview_id}/pdf` — Download comprehensive PDF interview report.
+All evaluation endpoints require an active Bearer JWT. Candidate session ownership or recruiter job management authorization is strictly enforced. Client-supplied scores are never accepted; evaluations are computed transparently via versioned rubrics and deterministic/AI provider engines.
+
+- `POST /api/v1/evaluations/answers/{answer_id}`
+  - **Authorization**: Candidate who submitted the answer, recruiter managing the associated job posting, or admin.
+  - **Body (optional)**: `AnswerEvaluationRequest` (`force_reevaluate`: bool, default False).
+  - **Behavior**: Evaluates candidate answer across category-specific rubric dimensions (0–4 scale). Guarantees idempotency: returns existing active evaluation unless `force_reevaluate` is True. Automatically preserves historical evaluations upon answer revision.
+  - **Response (`200 OK`)**: `AnswerEvaluationResponse` with overall score (0–100), normalized rubric score (0–4), criteria breakdown, evidence quotes, strengths, growth areas, and provider metadata.
+
+- `GET /api/v1/evaluations/answers/{answer_id}`
+  - **Authorization**: Candidate owner, recruiter managing the job, or admin.
+  - **Behavior**: Retrieves active rubric evaluation record for an authorized answer.
+  - **Response (`200 OK`)**: `AnswerEvaluationResponse` (or `404 Not Found` if not yet evaluated).
+
+- `POST /api/v1/evaluations/sessions/{session_id}/evaluate`
+  - **Authorization**: Session candidate owner, recruiter managing the job, or admin.
+  - **Body (optional)**: `AnswerEvaluationRequest` (`force_reevaluate`: bool, default False).
+  - **Security**: Requires session to be in `completed` status (`400 Bad Request` if still in draft or in-progress).
+  - **Behavior**: Batch evaluates all eligible submitted answers in the session and generates comprehensive summary report.
+  - **Response (`200 OK`)**: `SessionEvaluationReport`.
+
+- `GET /api/v1/evaluations/sessions/{session_id}/report`
+  - **Authorization**: Session candidate owner, recruiter managing the job, or admin (`403 Forbidden` for cross-user/cross-job access).
+  - **Behavior**: Retrieves structured evaluation summary containing overall proficiency score, average rubric score, per-question criteria breakdowns, direct candidate quotes, aggregated strengths/growth areas, and standard evaluation limitations disclaimer.
+  - **Response (`200 OK`)**: `SessionEvaluationReport`.
+
+---
+
+## 7. Upcoming Phase Endpoints
+
+### Integrity & PDF Reports — Phase 8
+- `GET /api/v1/reports/{session_id}/pdf` — Download comprehensive PDF interview audit report.
+- `GET /api/v1/integrity/{session_id}` — Identity observation and audit telemetry summary.
 

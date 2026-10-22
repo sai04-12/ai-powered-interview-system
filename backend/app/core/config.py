@@ -59,6 +59,8 @@ class Settings(BaseSettings):
     AI_PROVIDER: str = "mock"
     AI_API_KEY: str = ""
     AI_MODEL_NAME: str = "gpt-4o"
+    AI_EVALUATION_PROVIDER: str = "deterministic"
+    AI_EVALUATION_TIMEOUT_SECONDS: int = 15
     
     # Storage
     UPLOAD_DIR: str = "./uploads"

@@ -107,6 +107,25 @@ def test_migration_metadata_discovery():
     assert "answer_text" in answer_cols
     assert "word_count" in answer_cols
 
+    assert "answer_evaluations" in tables
+    eval_table = tables["answer_evaluations"]
+    eval_cols = [col.name for col in eval_table.columns]
+    assert "id" in eval_cols
+    assert "session_id" in eval_cols
+    assert "answer_id" in eval_cols
+    assert "question_id" in eval_cols
+    assert "answer_revision" in eval_cols
+    assert "status" in eval_cols
+    assert "rubric_version" in eval_cols
+    assert "overall_score" in eval_cols
+    assert "normalized_score" in eval_cols
+    assert "criteria_scores" in eval_cols
+    assert "evidence_excerpts" in eval_cols
+    assert "strengths" in eval_cols
+    assert "improvement_areas" in eval_cols
+    assert "evaluator_type" in eval_cols
+    assert "is_active" in eval_cols
+
 
 def test_alembic_upgrade_and_downgrade():
     """Verify Alembic migration upgrade to head and downgrade to base on disposable database."""

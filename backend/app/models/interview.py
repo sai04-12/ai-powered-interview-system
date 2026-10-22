@@ -3,9 +3,12 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import List, Optional
 from sqlalchemy import (
+    Boolean,
     DateTime,
+    Float,
     ForeignKey,
     Integer,
+    JSON,
     String,
     Text,
     UniqueConstraint,
@@ -19,6 +22,13 @@ class SessionStatus(str, Enum):
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
     ABANDONED = "abandoned"
+
+
+class EvaluationStatus(str, Enum):
+    PENDING = "pending"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    REQUIRES_REVIEW = "requires_review"
 
 
 class QuestionDifficulty(str, Enum):
@@ -90,6 +100,12 @@ class InterviewSession(Base, UUIDMixin, TimestampMixin):
         cascade="all, delete-orphan",
         lazy="selectin",
     )
+    evaluations: Mapped[List["AnswerEvaluation"]] = relationship(
+        "AnswerEvaluation",
+        back_populates="session",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
 
     def __repr__(self) -> str:
         return f"<InterviewSession id='{self.id}' user_id='{self.user_id}' status='{self.status}'>"
@@ -147,6 +163,12 @@ class InterviewQuestion(Base, UUIDMixin):
         cascade="all, delete-orphan",
         lazy="selectin",
     )
+    evaluations: Mapped[List["AnswerEvaluation"]] = relationship(
+        "AnswerEvaluation",
+        back_populates="question",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
 
     def __repr__(self) -> str:
         return f"<InterviewQuestion id='{self.id}' order={self.question_order} skill='{self.skill}'>"
@@ -184,6 +206,67 @@ class InterviewAnswer(Base, UUIDMixin):
     # Relationships
     session: Mapped["InterviewSession"] = relationship("InterviewSession", back_populates="answers")
     question: Mapped["InterviewQuestion"] = relationship("InterviewQuestion", back_populates="answer")
+    evaluations: Mapped[List["AnswerEvaluation"]] = relationship(
+        "AnswerEvaluation",
+        back_populates="answer",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+        order_by="desc(AnswerEvaluation.created_at)",
+    )
 
     def __repr__(self) -> str:
         return f"<InterviewAnswer id='{self.id}' session_id='{self.session_id}' question_id='{self.question_id}'>"
+
+
+class AnswerEvaluation(Base, UUIDMixin, TimestampMixin):
+    """Evaluation record capturing transparent scoring, rubric breakdown, and answer evidence."""
+    __tablename__ = "answer_evaluations"
+    __table_args__ = (
+        UniqueConstraint("answer_id", "answer_revision", "rubric_version", name="uq_answer_eval_revision_rubric"),
+    )
+
+    session_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("interview_sessions.id", ondelete="CASCADE"),
+        index=True,
+        nullable=False,
+    )
+    answer_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("interview_answers.id", ondelete="CASCADE"),
+        index=True,
+        nullable=False,
+    )
+    question_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("interview_questions.id", ondelete="CASCADE"),
+        index=True,
+        nullable=False,
+    )
+    answer_revision: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
+    status: Mapped[str] = mapped_column(
+        String(50),
+        default=EvaluationStatus.PENDING.value,
+        index=True,
+        nullable=False,
+    )
+    rubric_version: Mapped[str] = mapped_column(String(20), default="1.0.0", nullable=False)
+    overall_score: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    normalized_score: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    criteria_scores: Mapped[list] = mapped_column(JSON, default=list, nullable=False)
+    evidence_excerpts: Mapped[list] = mapped_column(JSON, default=list, nullable=False)
+    strengths: Mapped[list] = mapped_column(JSON, default=list, nullable=False)
+    improvement_areas: Mapped[list] = mapped_column(JSON, default=list, nullable=False)
+    evaluator_type: Mapped[str] = mapped_column(String(50), default="deterministic", nullable=False)
+    provider_metadata: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
+    evaluation_limitations: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    feedback_summary: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True, nullable=False)
+
+    # Relationships
+    session: Mapped["InterviewSession"] = relationship("InterviewSession", back_populates="evaluations")
+    answer: Mapped["InterviewAnswer"] = relationship("InterviewAnswer", back_populates="evaluations")
+    question: Mapped["InterviewQuestion"] = relationship("InterviewQuestion", back_populates="evaluations")
+
+    def __repr__(self) -> str:
+        return f"<AnswerEvaluation id='{self.id}' answer_id='{self.answer_id}' status='{self.status}' overall_score={self.overall_score}>"

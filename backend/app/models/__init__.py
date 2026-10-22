@@ -1,6 +1,8 @@
 """Database SQLAlchemy Models Package."""
 from app.models.base import Base, TimestampMixin, UUIDMixin
 from app.models.interview import (
+    AnswerEvaluation,
+    EvaluationStatus,
     InterviewAnswer,
     InterviewQuestion,
     InterviewSession,
@@ -28,7 +30,9 @@ __all__ = [
     "InterviewSession",
     "InterviewQuestion",
     "InterviewAnswer",
+    "AnswerEvaluation",
     "SessionStatus",
+    "EvaluationStatus",
     "QuestionDifficulty",
     "QuestionCategory",
     "QuestionSource",
