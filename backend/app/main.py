@@ -13,11 +13,11 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
-# Configure CORS (allow defined origins + any localhost/127.0.0.1 development port)
+# Configure CORS (allow defined origins + localhost development ports + Railway domains)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.BACKEND_CORS_ORIGINS,
-    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$",
+    allow_origin_regex=r"^(https?://(localhost|127\.0\.0\.1)(:[0-9]+)?|https://.*\.up\.railway\.app)$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

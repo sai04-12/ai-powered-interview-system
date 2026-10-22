@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     
     # Server
-    HOST: str = "127.0.0.1"
+    HOST: str = "0.0.0.0"
     PORT: int = 8000
     
     # CORS
@@ -58,9 +58,14 @@ class Settings(BaseSettings):
     # AI Provider
     AI_PROVIDER: str = "mock"
     AI_API_KEY: str = ""
-    AI_MODEL_NAME: str = "gpt-4o"
+    OPENAI_API_KEY: Union[str, None] = None
+    AI_MODEL_NAME: str = "gpt-4o-mini"
     AI_EVALUATION_PROVIDER: str = "deterministic"
-    AI_EVALUATION_TIMEOUT_SECONDS: int = 15
+    AI_EVALUATION_TIMEOUT_SECONDS: int = 30
+
+    @property
+    def effective_ai_api_key(self) -> str:
+        return self.AI_API_KEY or self.OPENAI_API_KEY or ""
     
     # Storage
     UPLOAD_DIR: str = "./uploads"

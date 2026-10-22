@@ -608,3 +608,144 @@ def test_incomplete_session_batch_evaluation_rejected(db: Session, candidate_tok
     )
     assert resp.status_code == 400
     assert "must be in 'completed' status" in resp.json()["detail"]
+
+
+# =========================================================================
+# 7. Real AI Provider (OpenAI) Integration & Resilience Tests
+# =========================================================================
+
+def test_openai_provider_success_flow():
+    """OpenAIEvaluationProvider parses valid API responses and calculates overall scores accurately."""
+    from unittest.mock import MagicMock
+    import json
+    import httpx
+    from app.ai.provider import OpenAIEvaluationProvider, EvaluationRequest
+
+    mock_client = MagicMock(spec=httpx.Client)
+    mock_resp = MagicMock()
+    mock_resp.json.return_value = {
+        "choices": [{
+            "message": {
+                "content": json.dumps({
+                    "status": "completed",
+                    "criteria_scores": [
+                        {"key": "technical_knowledge", "score": 3, "explanation": "Strong Python knowledge", "evidence_quote": "FastAPI is built on Starlette and Pydantic."},
+                        {"key": "relevance", "score": 4, "explanation": "Directly addresses framework features", "evidence_quote": "FastAPI uses type hints."},
+                        {"key": "reasoning_problem_solving", "score": 3, "explanation": "Clear trade-off reasoning", "evidence_quote": "Because asyncio handles high concurrency."},
+                        {"key": "practical_application", "score": 3, "explanation": "Practical deployment experience", "evidence_quote": "In my production microservice."},
+                    ],
+                    "strengths": ["Clear explanation of async architecture"],
+                    "improvement_areas": ["Could mention database session pooling"],
+                    "feedback_summary": "Comprehensive and practical response."
+                })
+            }
+        }],
+        "usage": {
+            "prompt_tokens": 420,
+            "completion_tokens": 180,
+            "total_tokens": 600,
+        }
+    }
+    mock_resp.raise_for_status.return_value = None
+    mock_client.post.return_value = mock_resp
+
+    provider = OpenAIEvaluationProvider(
+        api_key="sk-test-mock-key",
+        model_name="gpt-4o-mini",
+        client=mock_client,
+    )
+
+    req = EvaluationRequest(
+        question_text="Explain why FastAPI is suitable for high-concurrency microservices.",
+        category="technical",
+        skill="FastAPI",
+        difficulty="intermediate",
+        answer_text="FastAPI is built on Starlette and Pydantic. FastAPI uses type hints. Because asyncio handles high concurrency, in my production microservice it scaled easily.",
+    )
+
+    res = provider.evaluate(req)
+    assert res.status == "completed"
+    assert res.evaluator_type == "openai"
+    assert res.overall_score is not None
+    assert res.overall_score > 0
+    assert res.provider_metadata["total_tokens"] == 600
+    assert res.provider_metadata["model"] == "gpt-4o-mini"
+    assert len(res.criteria_scores) == 4
+
+
+def test_openai_provider_missing_key_fallback():
+    """OpenAIEvaluationProvider cleanly falls back to deterministic evaluator when no key is set."""
+    from app.ai.provider import OpenAIEvaluationProvider, EvaluationRequest
+
+    provider = OpenAIEvaluationProvider(api_key="")
+    req = EvaluationRequest(
+        question_text="What is a Python generator?",
+        category="technical",
+        skill="Python",
+        difficulty="basic",
+        answer_text="A generator uses yield to produce values lazily, which saves memory.",
+    )
+
+    res = provider.evaluate(req)
+    assert res.evaluator_type == "deterministic_fallback"
+    assert res.provider_metadata["fallback_reason"] == "api_key_missing"
+    assert res.status == "completed"
+
+
+def test_openai_provider_timeout_containment():
+    """OpenAIEvaluationProvider gracefully captures httpx timeouts without crashing."""
+    from unittest.mock import MagicMock
+    import httpx
+    from app.ai.provider import OpenAIEvaluationProvider, EvaluationRequest
+
+    mock_client = MagicMock(spec=httpx.Client)
+    mock_client.post.side_effect = httpx.TimeoutException("Request timed out")
+
+    provider = OpenAIEvaluationProvider(
+        api_key="sk-test-timeout",
+        client=mock_client,
+    )
+
+    req = EvaluationRequest(
+        question_text="Explain SQL transactions.",
+        category="technical",
+        skill="SQL",
+        difficulty="intermediate",
+        answer_text="Transactions guarantee ACID properties using COMMIT and ROLLBACK.",
+    )
+
+    res = provider.evaluate(req)
+    assert res.status == "failed"
+    assert res.provider_metadata["error_type"] == "timeout"
+    assert "timed out" in res.feedback_summary.lower()
+
+
+def test_openai_provider_rate_limit_containment():
+    """OpenAIEvaluationProvider gracefully captures HTTP 429 rate limits without crashing."""
+    from unittest.mock import MagicMock
+    import httpx
+    from app.ai.provider import OpenAIEvaluationProvider, EvaluationRequest
+
+    mock_client = MagicMock(spec=httpx.Client)
+    mock_response = httpx.Response(status_code=429, request=httpx.Request("POST", "https://api.openai.com/v1/chat/completions"))
+    mock_client.post.side_effect = httpx.HTTPStatusError("Rate limit exceeded", request=mock_response.request, response=mock_response)
+
+    provider = OpenAIEvaluationProvider(
+        api_key="sk-test-ratelimit",
+        client=mock_client,
+    )
+
+    req = EvaluationRequest(
+        question_text="Explain Docker containers.",
+        category="technical",
+        skill="Docker",
+        difficulty="basic",
+        answer_text="Docker packages application code and dependencies into isolated lightweight containers.",
+    )
+
+    res = provider.evaluate(req)
+    assert res.status == "failed"
+    assert res.provider_metadata["status_code"] == 429
+    assert res.provider_metadata["error_type"] == "http_error"
+    assert "rate limit" in res.feedback_summary.lower()
+

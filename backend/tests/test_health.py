@@ -52,6 +52,14 @@ def test_cors_preflight_options_request(client: TestClient):
     assert "GET" in response.headers.get("access-control-allow-methods", "")
 
 
+def test_cors_headers_on_railway_production_origin(client: TestClient):
+    """Verify CORS permits deployed Railway app frontend domains."""
+    railway_origin = "https://ai-interview-frontend.up.railway.app"
+    response = client.get("/api/v1/health", headers={"Origin": railway_origin})
+    assert response.status_code == 200
+    assert response.headers.get("access-control-allow-origin") == railway_origin
+
+
 def test_not_found_endpoint(client: TestClient):
     """Verify 404 response schema for non-existent endpoint."""
     response = client.get("/api/v1/non_existent_route")
