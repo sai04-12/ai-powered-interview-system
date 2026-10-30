@@ -11,7 +11,9 @@ class InterviewPlatformApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'AI-Powered Intelligent Interview System',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.light,
       routerConfig: AppRouter.router,
     );
   }
