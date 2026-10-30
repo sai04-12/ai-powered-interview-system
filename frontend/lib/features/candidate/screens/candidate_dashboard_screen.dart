@@ -25,7 +25,7 @@ class CandidateDashboardScreen extends StatelessWidget {
               children: [
                 // Top Header Bar
                 const AppTopbar(
-                  title: 'Good Morning, Priya Sharma 👋',
+                  title: 'Good Morning, Lasya 👋',
                   subtitle: 'Ready for your next opportunity?',
                   showCandidateProfile: true,
                 ),
@@ -232,7 +232,7 @@ class CandidateDashboardScreen extends StatelessWidget {
               icon: Icons.verified_outlined,
               iconColor: const Color(0xFF10B981),
               bgColor: const Color(0xFFECFDF5),
-              onTap: () => context.go('/profile-matching'),
+              onTap: () => context.go('/verification'),
             ),
             _buildStatCard(
               width: constraints.maxWidth > 800 ? cardWidth : (constraints.maxWidth - 16) / 2,
@@ -241,7 +241,7 @@ class CandidateDashboardScreen extends StatelessWidget {
               icon: Icons.description_outlined,
               iconColor: const Color(0xFF2563EB),
               bgColor: const Color(0xFFEFF6FF),
-              onTap: () => context.go('/profile-matching'),
+              onTap: () => context.go('/resume-analysis'),
             ),
             _buildStatCard(
               width: constraints.maxWidth > 800 ? cardWidth : (constraints.maxWidth - 16) / 2,
@@ -376,7 +376,7 @@ class CandidateDashboardScreen extends StatelessWidget {
             badgeText: 'Completed',
             badgeColor: const Color(0xFF10B981),
             badgeBgColor: const Color(0xFFECFDF5),
-            onTap: () => context.go('/profile-matching'),
+            onTap: () => context.go('/resume-analysis'),
           ),
           const Divider(color: Color(0xFFF1F5F9), height: 24),
 
@@ -407,7 +407,7 @@ class CandidateDashboardScreen extends StatelessWidget {
             badgeText: 'Verified',
             badgeColor: const Color(0xFF10B981),
             badgeBgColor: const Color(0xFFECFDF5),
-            onTap: () => context.go('/profile-matching'),
+            onTap: () => context.go('/verification'),
           ),
         ],
       ),

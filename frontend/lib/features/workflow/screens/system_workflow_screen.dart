@@ -355,7 +355,6 @@ class SystemWorkflowScreen extends StatelessWidget {
               _StudentBadge(name: 'G. GAYATRI', rollNo: '24634-CM-022'),
               _StudentBadge(name: 'D. CHARISHMA', rollNo: '24634-CM-014'),
               _StudentBadge(name: 'CH. MOHITHA SRI', rollNo: '24634-CM-013'),
-              _StudentBadge(name: 'Presented by: G. SAI', rollNo: 'Academic Year 2025 - 2026'),
             ],
           ),
         ],

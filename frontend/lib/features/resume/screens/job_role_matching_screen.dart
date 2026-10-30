@@ -221,7 +221,7 @@ class _JobRoleMatchingScreenState extends State<JobRoleMatchingScreen> {
               OutlinedButton.icon(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Viewing verified resume: Priya_Sharma_Resume.pdf')),
+                    const SnackBar(content: Text('Viewing verified resume: Lasya_Resume.pdf')),
                   );
                 },
                 icon: const Icon(Icons.description_outlined, size: 14),
@@ -241,7 +241,7 @@ class _JobRoleMatchingScreenState extends State<JobRoleMatchingScreen> {
                 radius: 24,
                 backgroundColor: const Color(0xFFEFF6FF),
                 child: const Text(
-                  'PS',
+                  'L',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
@@ -254,7 +254,7 @@ class _JobRoleMatchingScreenState extends State<JobRoleMatchingScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Priya Sharma',
+                    'Lasya',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w800,

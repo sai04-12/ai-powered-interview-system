@@ -86,7 +86,7 @@ class _RecruiterCandidatesScreenState extends State<RecruiterCandidatesScreen> {
           children: [
             TextField(
               controller: nameCtrl,
-              decoration: const InputDecoration(labelText: 'Candidate Full Name', hintText: 'e.g. Priya Sharma'),
+              decoration: const InputDecoration(labelText: 'Candidate Full Name', hintText: 'e.g. Lasya'),
             ),
             const SizedBox(height: 12),
             TextField(

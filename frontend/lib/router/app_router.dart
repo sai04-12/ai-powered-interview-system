@@ -8,15 +8,21 @@ import '../features/interviews/screens/interview_completion_screen.dart';
 import '../features/interviews/screens/interview_list_screen.dart';
 import '../features/interviews/screens/interview_session_screen.dart';
 import '../features/interviews/screens/interview_setup_screen.dart';
+import '../features/interviews/screens/live_coding_screen.dart';
 import '../features/interviews/screens/live_interview_screen.dart';
+import '../features/jobs/screens/create_job_posting_screen.dart';
 import '../features/jobs/screens/job_list_screen.dart';
+import '../features/landing/screens/landing_page_screen.dart';
 import '../features/recruiter/screens/recruiter_analytics_screen.dart';
 import '../features/recruiter/screens/recruiter_candidates_screen.dart';
 import '../features/reports/screens/interview_evaluation_report_screen.dart';
 import '../features/resume/screens/job_role_matching_screen.dart';
 import '../features/resume/screens/resume_list_screen.dart';
 import '../features/resume/screens/resume_match_screen.dart';
+import '../features/resume/screens/resume_upload_analysis_screen.dart';
 import '../features/resume/screens/resume_upload_screen.dart';
+import '../features/settings/screens/admin_settings_screen.dart';
+import '../features/verification/screens/profile_verification_screen.dart';
 import '../features/workflow/screens/system_workflow_screen.dart';
 import '../shared/screens/foundation_screen.dart';
 
@@ -24,19 +30,19 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: '/',
     routes: [
-      // Primary Route: Candidate Dashboard (Page 2 Screen 2)
+      // 1. Landing Page
       GoRoute(
         path: '/',
         name: 'home',
-        builder: (context, state) => const CandidateDashboardScreen(),
+        builder: (context, state) => const LandingPageScreen(),
       ),
       GoRoute(
-        path: '/dashboard',
-        name: 'dashboard',
-        builder: (context, state) => const CandidateDashboardScreen(),
+        path: '/landing',
+        name: 'landing',
+        builder: (context, state) => const LandingPageScreen(),
       ),
 
-      // Page 2 Screen 1: Smart Login & Sign Up
+      // 2. Login / Sign Up
       GoRoute(
         path: '/login',
         name: 'login',
@@ -46,6 +52,97 @@ class AppRouter {
         path: '/register',
         name: 'register',
         builder: (context, state) => const SmartLoginScreen(),
+      ),
+
+      // 3. Candidate Dashboard
+      GoRoute(
+        path: '/dashboard',
+        name: 'dashboard',
+        builder: (context, state) => const CandidateDashboardScreen(),
+      ),
+
+      // 4. Recruiter Dashboard
+      GoRoute(
+        path: '/recruiter/dashboard',
+        name: 'recruiter_dashboard',
+        builder: (context, state) => const RecruiterAnalyticsScreen(),
+      ),
+
+      // 5. Profile Verification
+      GoRoute(
+        path: '/verification',
+        name: 'verification',
+        builder: (context, state) => const ProfileVerificationScreen(),
+      ),
+
+      // 6. Resume Upload & Analysis
+      GoRoute(
+        path: '/resume-analysis',
+        name: 'resume_analysis',
+        builder: (context, state) => const ResumeUploadAnalysisScreen(),
+      ),
+
+      // 7. Interview Session (Video + Questions)
+      GoRoute(
+        path: '/live-interview',
+        name: 'live_interview',
+        builder: (context, state) => const LiveInterviewScreen(),
+      ),
+
+      // 8. Live Coding / Response Input
+      GoRoute(
+        path: '/live-coding',
+        name: 'live_coding',
+        builder: (context, state) => const LiveCodingScreen(),
+      ),
+
+      // 9. Interview Result / Report
+      GoRoute(
+        path: '/evaluation-report',
+        name: 'evaluation_report',
+        builder: (context, state) => const InterviewEvaluationReportScreen(),
+      ),
+
+      // 10. Candidates List (Recruiter)
+      GoRoute(
+        path: '/recruiter/candidates',
+        name: 'recruiter_candidates',
+        builder: (context, state) => const RecruiterCandidatesScreen(),
+      ),
+
+      // 11. Job Posting Management
+      GoRoute(
+        path: '/jobs/create',
+        name: 'create_job_posting',
+        builder: (context, state) => const CreateJobPostingScreen(),
+      ),
+
+      // 12. Settings / Admin
+      GoRoute(
+        path: '/settings',
+        name: 'admin_settings',
+        builder: (context, state) => const AdminSettingsScreen(),
+      ),
+
+      // Semantic Matching (Page 3)
+      GoRoute(
+        path: '/profile-matching',
+        name: 'profile_matching',
+        builder: (context, state) => const JobRoleMatchingScreen(),
+      ),
+
+      // System Workflow (Page 5)
+      GoRoute(
+        path: '/workflow',
+        name: 'system_workflow',
+        builder: (context, state) => const SystemWorkflowScreen(),
+      ),
+
+      // Dev & Legacy routes
+      GoRoute(
+        path: '/foundation',
+        name: 'foundation',
+        builder: (context, state) => const FoundationScreen(),
       ),
       GoRoute(
         path: '/legacy-login',
@@ -57,57 +154,6 @@ class AppRouter {
         name: 'legacy_register',
         builder: (context, state) => const RegisterScreen(),
       ),
-
-      // Page 3: Job Role Matching (Semantic Matching)
-      GoRoute(
-        path: '/profile-matching',
-        name: 'profile_matching',
-        builder: (context, state) => const JobRoleMatchingScreen(),
-      ),
-
-      // Page 4 Screen 5: Live AI Interview Session
-      GoRoute(
-        path: '/live-interview',
-        name: 'live_interview',
-        builder: (context, state) => const LiveInterviewScreen(),
-      ),
-
-      // Page 4 Screen 6: Interview Evaluation Report
-      GoRoute(
-        path: '/evaluation-report',
-        name: 'evaluation_report',
-        builder: (context, state) => const InterviewEvaluationReportScreen(),
-      ),
-
-      // Page 4 Screen 9: Recruiter Candidates List
-      GoRoute(
-        path: '/recruiter/candidates',
-        name: 'recruiter_candidates',
-        builder: (context, state) => const RecruiterCandidatesScreen(),
-      ),
-
-      // Page 4 Screen 10: Recruiter Analytics Dashboard
-      GoRoute(
-        path: '/recruiter/dashboard',
-        name: 'recruiter_dashboard',
-        builder: (context, state) => const RecruiterAnalyticsScreen(),
-      ),
-
-      // Page 5: 11-Step System Workflow
-      GoRoute(
-        path: '/workflow',
-        name: 'system_workflow',
-        builder: (context, state) => const SystemWorkflowScreen(),
-      ),
-
-      // Dev Foundation / Backend Health Check
-      GoRoute(
-        path: '/foundation',
-        name: 'foundation',
-        builder: (context, state) => const FoundationScreen(),
-      ),
-
-      // Existing feature routes
       GoRoute(
         path: '/resumes',
         name: 'resumes',

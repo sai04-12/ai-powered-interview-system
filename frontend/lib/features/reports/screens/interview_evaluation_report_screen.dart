@@ -22,7 +22,7 @@ class InterviewEvaluationReportScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            Text('Report file: Priya_Sharma_Interview_Evaluation_Report.pdf'),
+            Text('Report file: Lasya_Interview_Evaluation_Report.pdf'),
             SizedBox(height: 8),
             Text(
               'Includes candidate score (82%), AI integrity breakdown, answer transcriptions, and rubric assessment.',
@@ -40,7 +40,7 @@ class InterviewEvaluationReportScreen extends StatelessWidget {
               Navigator.pop(ctx);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Downloading: Priya_Sharma_Interview_Evaluation_Report.pdf'),
+                  content: Text('Downloading: Lasya_Interview_Evaluation_Report.pdf'),
                   backgroundColor: AppTheme.primary,
                 ),
               );
@@ -153,7 +153,7 @@ class InterviewEvaluationReportScreen extends StatelessWidget {
           _buildSummaryRow(
             icon: Icons.person_outline,
             label: 'Candidate',
-            value: 'Priya Sharma',
+            value: 'Lasya',
           ),
           const Divider(color: Color(0xFFF1F5F9), height: 20),
 

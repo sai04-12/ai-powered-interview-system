@@ -95,7 +95,11 @@ class _RecruiterAnalyticsScreenState extends State<RecruiterAnalyticsScreen> {
                           ),
                           const SizedBox(height: 24),
 
-                          // 3. Quick Action Banner to Candidates List
+                          // 3. Recent Interviews Table (Screen 4)
+                          _buildRecentInterviewsTable(context),
+                          const SizedBox(height: 24),
+
+                          // 4. Quick Action Banner to Candidates List
                           _buildRecruiterActionBanner(context),
                         ],
                       ),
@@ -121,7 +125,7 @@ class _RecruiterAnalyticsScreenState extends State<RecruiterAnalyticsScreen> {
             _buildMetricCard(
               width: constraints.maxWidth > 800 ? cardWidth : (constraints.maxWidth - 16) / 2,
               title: 'Total Candidates',
-              value: '125',
+              value: '124',
               growthText: '+ 12%',
               icon: Icons.people_outline,
               iconColor: const Color(0xFF2563EB),
@@ -129,8 +133,8 @@ class _RecruiterAnalyticsScreenState extends State<RecruiterAnalyticsScreen> {
             ),
             _buildMetricCard(
               width: constraints.maxWidth > 800 ? cardWidth : (constraints.maxWidth - 16) / 2,
-              title: 'Completed Interviews',
-              value: '98',
+              title: 'Interviews Conducted',
+              value: '48',
               growthText: '+ 18%',
               icon: Icons.assignment_turned_in_outlined,
               iconColor: const Color(0xFF7C3AED),
@@ -139,7 +143,7 @@ class _RecruiterAnalyticsScreenState extends State<RecruiterAnalyticsScreen> {
             _buildMetricCard(
               width: constraints.maxWidth > 800 ? cardWidth : (constraints.maxWidth - 16) / 2,
               title: 'Shortlisted',
-              value: '24',
+              value: '12',
               growthText: '+ 20%',
               icon: Icons.star_border_outlined,
               iconColor: const Color(0xFF10B981),
@@ -147,10 +151,10 @@ class _RecruiterAnalyticsScreenState extends State<RecruiterAnalyticsScreen> {
             ),
             _buildMetricCard(
               width: constraints.maxWidth > 800 ? cardWidth : (constraints.maxWidth - 16) / 2,
-              title: 'Average Score',
-              value: '78%',
-              growthText: '+ 3%',
-              icon: Icons.bar_chart_outlined,
+              title: 'Hire Rate',
+              value: '25%',
+              growthText: '+ 5%',
+              icon: Icons.trending_up,
               iconColor: const Color(0xFF0284C7),
               bgColor: const Color(0xFFE0F2FE),
             ),
@@ -458,6 +462,123 @@ class _RecruiterAnalyticsScreenState extends State<RecruiterAnalyticsScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildRecentInterviewsTable(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Recent Interviews',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppTheme.textDark),
+              ),
+              TextButton(
+                onPressed: () => context.go('/recruiter/candidates'),
+                child: const Text(
+                  'View All',
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.primary),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Table(
+              columnWidths: const {
+                0: FlexColumnWidth(3),
+                1: FlexColumnWidth(3),
+                2: FlexColumnWidth(2),
+                3: FlexColumnWidth(1.5),
+                4: FlexColumnWidth(2),
+              },
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: [
+                const TableRow(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF8FAFC),
+                    border: Border(bottom: BorderSide(color: Color(0xFFE2E8F0))),
+                  ),
+                  children: [
+                    Padding(padding: EdgeInsets.all(10), child: Text('Candidate', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12))),
+                    Padding(padding: EdgeInsets.all(10), child: Text('Position', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12))),
+                    Padding(padding: EdgeInsets.all(10), child: Text('Date', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12))),
+                    Padding(padding: EdgeInsets.all(10), child: Text('Score', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12))),
+                    Padding(padding: EdgeInsets.all(10), child: Text('Status', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12))),
+                  ],
+                ),
+                _buildTableRow(context, 'Rahul Mehta', 'Frontend Developer', 'Today', '85%', 'Shortlisted', const Color(0xFF10B981)),
+                _buildTableRow(context, 'Sneha Patel', 'Python Developer', 'Today', '72%', 'Completed', const Color(0xFF2563EB)),
+                _buildTableRow(context, 'Arjun Kumar', 'Data Analyst', 'Yesterday', '68%', 'Completed', const Color(0xFF2563EB)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  TableRow _buildTableRow(BuildContext context, String name, String pos, String date, String score, String status, Color statusColor) {
+    return TableRow(
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Color(0xFFF1F5F9))),
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+          child: InkWell(
+            onTap: () => context.go('/evaluation-report'),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 12,
+                  backgroundColor: const Color(0xFFEFF6FF),
+                  child: Text(name[0], style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.primary)),
+                ),
+                const SizedBox(width: 8),
+                Text(name, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.textDark)),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(pos, style: const TextStyle(fontSize: 12, color: AppTheme.textMuted)),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(date, style: const TextStyle(fontSize: 12, color: AppTheme.textMuted)),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(score, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: statusColor)),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: statusColor.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              status,
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: statusColor),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

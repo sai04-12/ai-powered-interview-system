@@ -154,81 +154,28 @@ class AppSidebar extends StatelessWidget {
             ),
           ),
 
-          // Workflow & Presentation Highlights
+          // Simple System Workflow button in the left bottom
           Padding(
-            padding: const EdgeInsets.all(12),
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFEFF6FF), Color(0xFFF0FDF4)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            child: SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () => context.go('/workflow'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                  backgroundColor: const Color(0xFFF8FAFC),
+                  side: const BorderSide(color: Color(0xFFE2E8F0)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFBFDBFE)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primary.withValues(alpha: 0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.account_tree_outlined,
-                          size: 16,
-                          color: AppTheme.primary,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const Text(
-                        'System Workflow',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.textDark,
-                        ),
-                      ),
-                    ],
+                icon: const Icon(Icons.account_tree_outlined, size: 16, color: AppTheme.primary),
+                label: const Text(
+                  'System Workflow',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: AppTheme.primary,
                   ),
-                  const SizedBox(height: 6),
-                  const Text(
-                    '11-Step AI Pipeline & College Project Architecture',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: AppTheme.textMuted,
-                      height: 1.3,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: AppTheme.primary),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: () => context.go('/workflow'),
-                      child: const Text(
-                        'View 11-Step Flow',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: AppTheme.primary,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -279,30 +226,37 @@ class AppSidebar extends StatelessWidget {
       ),
       _buildNavItem(
         context,
-        icon: Icons.calendar_today_outlined,
-        activeIcon: Icons.calendar_today,
-        label: 'My Interviews',
-        route: '/interviews',
+        icon: Icons.verified_user_outlined,
+        activeIcon: Icons.verified_user,
+        label: 'Profile Verification',
+        route: '/verification',
       ),
       _buildNavItem(
         context,
-        icon: Icons.person_outline,
-        activeIcon: Icons.person,
-        label: 'Profile',
-        route: '/profile-matching',
+        icon: Icons.upload_file_outlined,
+        activeIcon: Icons.upload_file,
+        label: 'Resume Analysis',
+        route: '/resume-analysis',
       ),
       _buildNavItem(
         context,
-        icon: Icons.description_outlined,
-        activeIcon: Icons.description,
-        label: 'Resume',
-        route: '/resumes',
+        icon: Icons.videocam_outlined,
+        activeIcon: Icons.videocam,
+        label: 'Live Interview',
+        route: '/live-interview',
       ),
       _buildNavItem(
         context,
-        icon: Icons.card_membership_outlined,
-        activeIcon: Icons.card_membership,
-        label: 'Certificates',
+        icon: Icons.code_outlined,
+        activeIcon: Icons.code,
+        label: 'Live Coding',
+        route: '/live-coding',
+      ),
+      _buildNavItem(
+        context,
+        icon: Icons.assessment_outlined,
+        activeIcon: Icons.assessment,
+        label: 'Evaluation Report',
         route: '/evaluation-report',
       ),
       _buildNavItem(
@@ -333,17 +287,10 @@ class AppSidebar extends StatelessWidget {
       ),
       _buildNavItem(
         context,
-        icon: Icons.work_outline,
-        activeIcon: Icons.work,
+        icon: Icons.post_add_outlined,
+        activeIcon: Icons.post_add,
         label: 'Job Postings',
-        route: '/jobs',
-      ),
-      _buildNavItem(
-        context,
-        icon: Icons.video_call_outlined,
-        activeIcon: Icons.video_call,
-        label: 'Interviews',
-        route: '/interviews',
+        route: '/jobs/create',
       ),
       _buildNavItem(
         context,

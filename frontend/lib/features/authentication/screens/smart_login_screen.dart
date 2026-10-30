@@ -14,9 +14,9 @@ class SmartLoginScreen extends ConsumerStatefulWidget {
 
 class _SmartLoginScreenState extends ConsumerState<SmartLoginScreen> {
   bool _isSignUp = false;
-  final _emailController = TextEditingController(text: 'priya.sharma@example.com');
+  final _emailController = TextEditingController(text: 'lasya@example.com');
   final _passwordController = TextEditingController(text: 'SecretPassword123!');
-  final _nameController = TextEditingController(text: 'Priya Sharma');
+  final _nameController = TextEditingController(text: 'Lasya');
   bool _rememberMe = true;
   bool _obscurePassword = true;
   String _selectedRole = 'candidate'; // 'candidate' or 'recruiter'
@@ -355,7 +355,7 @@ class _SmartLoginScreenState extends ConsumerState<SmartLoginScreen> {
                 controller: _nameController,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.person_outline, size: 20),
-                  hintText: 'e.g. Priya Sharma',
+                  hintText: 'e.g. Lasya',
                 ),
               ),
               const SizedBox(height: 16),

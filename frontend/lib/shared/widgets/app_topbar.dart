@@ -70,7 +70,7 @@ class AppTopbar extends StatelessWidget {
               const PopupMenuItem(
                 enabled: false,
                 child: Text(
-                  'PDF SCREENS SHOWCASE',
+                  '12 PDF SCREENS SHOWCASE',
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w800,
@@ -79,36 +79,57 @@ class AppTopbar extends StatelessWidget {
                 ),
               ),
               const PopupMenuItem(
+                value: '/landing',
+                child: Text('1. Landing Page'),
+              ),
+              const PopupMenuItem(
                 value: '/login',
-                child: Text('Page 2: Login & Sign Up'),
+                child: Text('2. Login / Sign Up'),
               ),
               const PopupMenuItem(
                 value: '/dashboard',
-                child: Text('Page 2: Candidate Dashboard'),
-              ),
-              const PopupMenuItem(
-                value: '/profile-matching',
-                child: Text('Page 3: Job Role Matching (Semantic)'),
-              ),
-              const PopupMenuItem(
-                value: '/live-interview',
-                child: Text('Page 4: Live AI Interview (Video + Chat)'),
-              ),
-              const PopupMenuItem(
-                value: '/evaluation-report',
-                child: Text('Page 4: Interview Evaluation Report'),
-              ),
-              const PopupMenuItem(
-                value: '/recruiter/candidates',
-                child: Text('Page 4: Recruiter Candidates List'),
+                child: Text('3. Candidate Dashboard'),
               ),
               const PopupMenuItem(
                 value: '/recruiter/dashboard',
-                child: Text('Page 4: Recruiter Analytics Dashboard'),
+                child: Text('4. Recruiter Dashboard'),
               ),
               const PopupMenuItem(
+                value: '/verification',
+                child: Text('5. Profile Verification'),
+              ),
+              const PopupMenuItem(
+                value: '/resume-analysis',
+                child: Text('6. Resume Upload & Analysis'),
+              ),
+              const PopupMenuItem(
+                value: '/live-interview',
+                child: Text('7. Interview Session (Video + Qs)'),
+              ),
+              const PopupMenuItem(
+                value: '/live-coding',
+                child: Text('8. Live Coding / Response Input'),
+              ),
+              const PopupMenuItem(
+                value: '/evaluation-report',
+                child: Text('9. Interview Result / Report'),
+              ),
+              const PopupMenuItem(
+                value: '/recruiter/candidates',
+                child: Text('10. Candidates List (Recruiter)'),
+              ),
+              const PopupMenuItem(
+                value: '/jobs/create',
+                child: Text('11. Job Posting Management'),
+              ),
+              const PopupMenuItem(
+                value: '/settings',
+                child: Text('12. Settings / Admin'),
+              ),
+              const PopupMenuDivider(),
+              const PopupMenuItem(
                 value: '/workflow',
-                child: Text('Page 5: 11-Step System Workflow'),
+                child: Text('⚡ System Workflow (11 Steps)'),
               ),
             ],
             child: Container(
@@ -188,7 +209,7 @@ class AppTopbar extends StatelessWidget {
                       color: const Color(0xFFFED7AA),
                       alignment: Alignment.center,
                       child: Text(
-                        showCandidateProfile ? 'PS' : 'RV',
+                        showCandidateProfile ? 'L' : 'RV',
                         style: const TextStyle(
                           color: Color(0xFF9A3412),
                           fontWeight: FontWeight.w800,
@@ -204,7 +225,7 @@ class AppTopbar extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      showCandidateProfile ? 'Priya Sharma' : 'Rohit Verma',
+                      showCandidateProfile ? 'Lasya' : 'Rohit Verma',
                       style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,

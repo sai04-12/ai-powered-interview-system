@@ -262,7 +262,7 @@ class _LiveInterviewScreenState extends State<LiveInterviewScreen> {
                             child: const CircleAvatar(
                               backgroundColor: Color(0xFFFED7AA),
                               child: Text(
-                                'PS',
+                                'L',
                                 style: TextStyle(
                                   color: Color(0xFF9A3412),
                                   fontSize: 42,
@@ -279,7 +279,7 @@ class _LiveInterviewScreenState extends State<LiveInterviewScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: const Text(
-                              'Priya Sharma (Candidate)',
+                              'Lasya (Candidate)',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,
