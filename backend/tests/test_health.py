@@ -1,6 +1,17 @@
 from fastapi.testclient import TestClient
 
 
+def test_root_endpoint(client: TestClient):
+    """Test root / endpoint returns discovery metadata."""
+    response = client.get("/")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "online"
+    assert "version" in data
+    assert "docs" in data
+    assert "health" in data
+
+
 def test_root_health(client: TestClient):
     """Test root /health endpoint returns healthy status code 200."""
     response = client.get("/health")
@@ -58,6 +69,14 @@ def test_cors_headers_on_railway_production_origin(client: TestClient):
     response = client.get("/api/v1/health", headers={"Origin": railway_origin})
     assert response.status_code == 200
     assert response.headers.get("access-control-allow-origin") == railway_origin
+
+
+def test_cors_headers_on_vercel_production_origin(client: TestClient):
+    """Verify CORS permits deployed Vercel app frontend domains."""
+    vercel_origin = "https://ai-powered-interview-system.vercel.app"
+    response = client.get("/api/v1/health", headers={"Origin": vercel_origin})
+    assert response.status_code == 200
+    assert response.headers.get("access-control-allow-origin") == vercel_origin
 
 
 def test_not_found_endpoint(client: TestClient):

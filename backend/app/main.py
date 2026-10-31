@@ -13,11 +13,11 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
-# Configure CORS (allow defined origins + localhost development ports + Railway domains)
+# Configure CORS (allow defined origins + localhost development ports + Railway & Vercel domains)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.BACKEND_CORS_ORIGINS,
-    allow_origin_regex=r"^(https?://(localhost|127\.0\.0\.1)(:[0-9]+)?|https://.*\.up\.railway\.app)$",
+    allow_origin_regex=r"^(https?://(localhost|127\.0\.0\.1)(:[0-9]+)?|https://.*\.up\.railway\.app|https://.*\.vercel\.app)$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -25,6 +25,20 @@ app.add_middleware(
 
 # Include API v1 router
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+
+@app.get("/", tags=["Root"])
+def root() -> dict:
+    """Root entry point providing service metadata and discovery links."""
+    return {
+        "name": settings.APP_NAME,
+        "version": "1.0.0",
+        "status": "online",
+        "docs": "/docs",
+        "redoc": "/redoc",
+        "health": "/health",
+        "api_v1": settings.API_V1_STR,
+    }
 
 
 @app.get("/health", response_model=HealthResponse, tags=["Health"])
